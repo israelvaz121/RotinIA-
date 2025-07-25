@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <title>Renovaz Construtora</title>
+    <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+
+    <!-- Checkbox invisível para controlar a aba -->
+    <input type="checkbox" id="aba-toggle" class="toggle-checkbox" />
+
+    <!-- Menu fixo no topo -->
+    <nav>
+        <ul>
+            <li><a href="#Trabalho">Trabalho</a></li>
+            <li><a href="questoes.html">Questoes</a></li>
+            <li><a href="rotina.html">Rotinas</a></li>
+            <li><a href="vestibulares.html">Vestibulares</a></li>
+            <li>
+                <label for="aba-toggle" class="toggle-label" tabindex="0" role="button" aria-controls="aba" aria-expanded="false">
+                    + Info
+                </label>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Aba expansível -->
+    <div class="aba" id="aba" aria-hidden="true">
+        <h2>Mais Informações</h2>
+        <p>Bem-vindo à área adicional! Aqui você pode colocar detalhes extras sobre a plataforma, links úteis, informações de contato ou qualquer outro conteúdo relevante.</p>
+
+        <!-- Botão de alternância de tema dentro da aba -->
+        <input type="button" id="toggle" class="toggle" value="🌙" aria-label="Alternar tema escuro" />
+    </div>
+
+    <!-- Conteúdo principal -->
+    <h1 class="container flutuante">Rotin IA</h1>
+
+    <div class="container">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores quia, a expedita ipsum fuga exercitationem dolore adipisci voluptatem consequatur odit totam, animi doloremque quisquam recusandae veniam, repudiandae impedit perferendis. Asperiores!
+    </div>
+
+    <!-- Rodapé fixo -->
+    <footer class="footer">
+        Copyright 2025. Todos os direitos reservados.
+    </footer>
+
+    <script>
+        // Animação dos elementos flutuantes
+        const elementos = document.querySelectorAll('.flutuante');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('aparecer');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        elementos.forEach(el => observer.observe(el));
+
+        // Botão alternar tema escuro
+        const toggleBtn = document.getElementById('toggle');
+        const abaToggleLabel = document.querySelector('label[for="aba-toggle"]');
+        const abaCheckbox = document.getElementById('aba-toggle');
+        const aba = document.getElementById('aba');
+
+        toggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            toggleBtn.value = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+
+        // Atualiza atributo aria-expanded e aria-hidden para acessibilidade da aba
+        abaCheckbox.addEventListener('change', () => {
+            const expanded = abaCheckbox.checked;
+            abaToggleLabel.setAttribute('aria-expanded', expanded);
+            aba.setAttribute('aria-hidden', !expanded);
+        });
+    </script>
+</body>
+</html>

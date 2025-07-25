@@ -1,0 +1,161 @@
+/* Reset e estilo base */
+body {
+    margin: 0;
+    padding: 60px 0;
+    min-height: 100vh;
+    color: rgb(75, 8, 117);
+    background: linear-gradient(to top, rgb(132, 0, 255), rgb(228, 195, 255));
+    font-family: Arial, Helvetica, sans-serif;
+    scroll-behavior: smooth;
+}
+
+a {
+    color: rgb(75, 8, 117);
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+/* Elementos flutuantes com animação */
+.flutuante,
+.flutuant,
+.flutuantes {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+}
+
+.flutuante {
+    font-size: 3em;
+}
+
+.flutuant {
+    font-size: 2em;
+}
+
+.flutuante.aparecer,
+.flutuantes.aparecer {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Rodapé fixo */
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to left, rgb(0, 53, 167), rgb(0, 71, 151));
+    color: rgb(182, 199, 255);
+    text-align: center;
+    padding: 0.1px;
+    z-index: 1000;
+}
+
+/* Menu fixo no topo */
+nav ul {
+    color: rgb(75, 8, 117);
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    align-items: center;
+    padding: 15px;
+    margin: 0;
+    background: linear-gradient(to right, #950ecf, rgb(237, 133, 255));
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1100;
+}
+
+nav ul li {
+    list-style: none;
+}
+
+nav ul li a,
+nav ul li label.toggle-label {
+    cursor: pointer;
+    color: rgb(75, 8, 117);
+    font-weight: 600;
+}
+
+/* Aba expansível */
+.aba {
+    display: none;
+    position: relative;
+    margin: 100px auto 30px auto; /* para não ficar embaixo do menu fixo */
+    padding: 20px;
+    background: linear-gradient(to bottom right, #f5d6ff, #e8c3ff);
+    color: rgb(75, 8, 117);
+    width: 90%;
+    max-width: 600px;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    font-size: 18px;
+    text-align: left;
+    transition: all 0.4s ease-in-out;
+    z-index: 1050;
+}
+
+/* Exibir a aba quando checkbox está checado */
+#aba-toggle:checked ~ .aba {
+    display: block;
+}
+
+/* Estilos para checkbox invisível */
+.toggle-checkbox {
+    display: none;
+}
+
+/* Botão de tema dentro da aba */
+.aba .toggle {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #544c58;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s ease;
+    z-index: 1100;
+}
+
+.aba .toggle:hover {
+    background: #6b5f72;
+}
+
+/* Tema escuro */
+body.dark-mode {
+    transition: all 0.6s ease-out;
+    background: linear-gradient(to top, rgb(70, 2, 119), rgb(107, 0, 156));
+    color: rgb(242, 144, 255);
+    transition: all 0.6s ease-out;
+}
+
+body.dark-mode a,
+body.dark-mode nav ul li a,
+body.dark-mode nav ul li label.toggle-label {
+    color: rgb(242, 144, 255);
+}
+
+body.dark-mode nav ul {
+    background: linear-gradient(to right,  #3a034b, rgb(138, 9, 160));
+}
+
+body.dark-mode .footer {
+    background: linear-gradient(to left, rgb(0, 53, 167), rgb(0, 71, 151));
+}
+
+body.dark-mode .aba {
+    background: linear-gradient(to bottom right, #2c003f, #470161);
+    color: rgb(242, 144, 255);
+}

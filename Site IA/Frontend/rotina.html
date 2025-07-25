@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <title>Rotin AI - Rotina</title>
+    <link rel="stylesheet" href="rotina.css" />
+</head>
+<body>
+
+<!-- Checkbox oculto para abrir a aba -->
+<input type="checkbox" id="aba-toggle" class="toggle-checkbox" hidden>
+
+<!-- Aba oculta com conteúdo adicional -->
+<div id="aba" class="aba" aria-hidden="true">
+    <p>Conteúdo adicional da aba aqui, que será revelado.</p>
+    <button id="toggle" class="toggle" aria-label="Alternar tema">🌙</button>
+</div>
+
+<!-- Menu de navegação -->
+<nav>
+    <ul>
+        <li><a href="index.html">Trabalho</a></li>
+        <li><a href="questoes.html">Questões</a></li>
+        <li><a href="#rotina">Rotinas</a></li>
+        <li><a href="vestibulares.html">Vestibulares</a></li>
+        <li>
+            <label for="aba-toggle" class="toggle-label" tabindex="0" role="button" aria-controls="aba" aria-expanded="false">
+                + Info
+            </label>
+        </li>
+    </ul>
+</nav>
+
+<h1 class="container">Gerador de Rotina de Estudos</h1>
+
+<h2 class="meio">Tempo disponível por dia (em horas):</h2>
+<input class="meio belesa" type="number" id="tempo" placeholder="Ex: 2" aria-label="Tempo disponível por dia">
+
+<h2 class="meio beleza">Nível de dificuldade:</h2>
+<select id="nivel" class="meio belesa" aria-label="Nível de dificuldade">
+    <option value="iniciante">Iniciante</option>
+    <option value="intermediario">Intermediário</option>
+    <option value="avancado">Avançado</option>
+</select>
+
+<h2 class="meio beleza">Objetivo de estudo:</h2>
+<select id="objetivo" class="meio belesa" aria-label="Objetivo de estudo">
+    <option value="escola">Escola</option>
+    <option value="concurso">Concurso</option>
+    <option value="faculdade">Faculdade</option>
+</select>
+
+<button class="belesa" onclick="gerarRotina()">Gerar Rotina</button>
+
+<h2 class="container">Resultado:</h2>
+<pre id="resultadoRotina"></pre>
+
+<footer class="footer">
+    Copyright 2025. Todos os direitos reservados.
+</footer>
+
+<script>
+    async function gerarRotina() {
+        const tempo = document.getElementById('tempo').value;
+        const nivel = document.getElementById('nivel').value;
+        const objetivo = document.getElementById('objetivo').value;
+
+        if (!tempo || !nivel || !objetivo) {
+            document.getElementById("resultadoRotina").textContent = "Por favor, preencha todos os campos.";
+            return;
+        }
+
+        try {
+            const resposta = await fetch("http://127.0.0.1:8000/rotina", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    tempo_disponivel: tempo,
+                    nivel: nivel,
+                    objetivo: objetivo
+                })
+            });
+
+            const dados = await resposta.json();
+            let resultadoFormatado = '';
+
+            if (dados.rotina) {
+                for (let dia in dados.rotina) {
+                    resultadoFormatado += `${dia.toUpperCase()}:\n- ${dados.rotina[dia].join('\n- ')}\n\n`;
+                }
+            } else if (dados.rotina_texto) {
+                resultadoFormatado = dados.rotina_texto;
+            } else if (dados.error) {
+                resultadoFormatado = "Erro: " + dados.error;
+            } else {
+                resultadoFormatado = "Erro ao gerar rotina.";
+            }
+
+            document.getElementById("resultadoRotina").textContent = resultadoFormatado;
+
+        } catch (erro) {
+            console.error("Erro ao gerar rotina:", erro);
+            document.getElementById("resultadoRotina").textContent = "Erro ao gerar rotina.";
+        }
+    }
+
+    // Acessibilidade da aba
+    const abaToggleLabel = document.querySelector('label[for="aba-toggle"]');
+    const abaCheckbox = document.getElementById('aba-toggle');
+    const aba = document.getElementById('aba');
+
+    abaCheckbox.addEventListener('change', () => {
+        const expanded = abaCheckbox.checked;
+        abaToggleLabel.setAttribute('aria-expanded', expanded);
+        aba.setAttribute('aria-hidden', !expanded);
+    });
+
+    // Botão alternar tema com localStorage
+    const toggleBtn = document.getElementById('toggle');
+    if (toggleBtn) {
+        if (localStorage.getItem("tema") === "dark") {
+            document.body.classList.add("dark-mode");
+            toggleBtn.textContent = '☀️';
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            const isDark = document.body.classList.toggle('dark-mode');
+            toggleBtn.textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem("tema", isDark ? "dark" : "light");
+        });
+    }
+
+    // Animações para elementos flutuantes
+    const elementos = document.querySelectorAll('.flutuante');
+    if (elementos.length > 0) {
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('aparecer');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        elementos.forEach(el => observer.observe(el));
+    }
+</script>
+
+</body>
+</html>

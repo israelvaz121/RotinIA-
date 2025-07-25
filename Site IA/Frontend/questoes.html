@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <title>Renovaz Construtora</title>
+    <link rel="stylesheet" href="questoes.css">
+        <style>
+        html { 
+            scroll-behavior: smooth; 
+        } 
+        #Trabalho { 
+            scroll-margin-top: 100px; 
+        }
+    </style>
+</head>
+
+
+
+
+<body style="height: auto;">
+
+<nav>
+    <ul>
+        <li><a href="index.html">Trabalho</a></li>
+        <li><a href="#questoes">Questoes</a></li>
+        <li><a href="rotina.html">Rotinas</a></li>
+    </ul>
+</nav>
+<select name="" id="" placeholder="Materia d">Materia Desejada </select>
+    <option value=""></option>
+<input type="text" placeholder="Conteudo Desejado" class="pesquisa">
+
+
+
+
+    <div class="container">
+
+    <footer class="footer">
+        Copyright 2025. Todos os direitos reservados.
+    </footer>
+
+    <script>
+
+        const elementos = document.querySelectorAll('.flutuante');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('aparecer');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+        
+        elementos.forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
